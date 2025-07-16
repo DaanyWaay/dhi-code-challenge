@@ -1,5 +1,7 @@
-import { Popper } from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
+import { ButtonGroup, Popper } from "@mui/material";
+import Button from "@mui/material/Button";
+import { useMapMenuActions } from "../../hooks/useMapMenuActions";
+import { useCurrentAction } from "../../store/currentAction";
 
 interface MapPopoverMenu {
   open: boolean;
@@ -12,6 +14,9 @@ export const MapPopoverMenu = ({
   anchorEl,
   handleClose,
 }: MapPopoverMenu) => {
+  const { onDrawPolygonClick } = useMapMenuActions();
+  const currentAction = useCurrentAction((store) => store.action);
+
   return (
     <Popper
       id="map-menu"
@@ -19,8 +24,16 @@ export const MapPopoverMenu = ({
       open={open}
       className="tw-bg-white tw-rounded-md"
     >
-      <MenuItem onClick={handleClose}>Search</MenuItem>
-      <MenuItem onClick={handleClose}>Import GeoJSON</MenuItem>
+      <ButtonGroup orientation="vertical">
+        <Button onClick={handleClose}>Search</Button>
+        <Button onClick={handleClose}>Import GeoJSON</Button>
+        <Button
+          onClick={onDrawPolygonClick}
+          variant={currentAction === "DRAW_POLYGON" ? "contained" : "outlined"}
+        >
+          Draw polygon
+        </Button>
+      </ButtonGroup>
     </Popper>
   );
 };
