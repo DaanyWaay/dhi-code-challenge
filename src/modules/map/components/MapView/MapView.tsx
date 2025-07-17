@@ -23,8 +23,9 @@ export const MapView = () => {
       layers={layers}
       style={{ position: "relative" }}
       onClick={(info) => {
-        console.log("Clicked:", info.coordinate);
-        emitter.emit("mapClick", info.coordinate);
+        if (info.coordinate) {
+          emitter.emit("mapClick", info.coordinate);
+        }
       }}
     />
   );

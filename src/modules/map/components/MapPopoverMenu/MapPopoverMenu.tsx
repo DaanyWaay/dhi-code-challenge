@@ -1,7 +1,6 @@
 import { ButtonGroup, Popper } from "@mui/material";
 import Button from "@mui/material/Button";
-import { useMapMenuActions } from "../../hooks/useMapMenuActions";
-import { useCurrentAction } from "../../store/currentAction";
+import { useDrawPolygon } from "../../hooks/useDrawPolygon";
 
 interface MapPopoverMenu {
   open: boolean;
@@ -14,8 +13,7 @@ export const MapPopoverMenu = ({
   anchorEl,
   handleClose,
 }: MapPopoverMenu) => {
-  const { onDrawPolygonClick } = useMapMenuActions();
-  const currentAction = useCurrentAction((store) => store.action);
+  const { onDrawPolygonClick, isActive } = useDrawPolygon();
 
   return (
     <Popper
@@ -29,7 +27,7 @@ export const MapPopoverMenu = ({
         <Button onClick={handleClose}>Import GeoJSON</Button>
         <Button
           onClick={onDrawPolygonClick}
-          variant={currentAction === "DRAW_POLYGON" ? "contained" : "outlined"}
+          variant={isActive ? "contained" : "outlined"}
         >
           Draw polygon
         </Button>

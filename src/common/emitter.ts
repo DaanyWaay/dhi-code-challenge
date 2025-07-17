@@ -1,3 +1,7 @@
 import mitt from "mitt";
 
-export const emitter = mitt();
+type Events = {
+  mapClick: number[];
+};
+
+export const emitter = mitt<Events>();
